@@ -16,20 +16,18 @@ This project implements a comprehensive indexing solution for geospatial simulat
 
 The system supports multiple query paradigms including **incremental filtering**, **unified composite indexing**, and **distributed Spark-based execution**—making it suitable for both real-time analytics and large-scale batch processing scenarios in geological, meteorological, and environmental monitoring applications.
 
-[Insert Architecture Diagram Here]
 
 ---
 
 ## ✨ Features
 
-- 🎯 **Multi-Dimensional Unified Indexing** — Composite index keys combining time, space (Z3D/Hilbert encoding), and attributes (velocity vectors, temperature scalars, categorical IDs)
-- 🧊 **Dual Data Model Support** — Seamlessly handle both scattered points and volumetric voxel data with configurable spatial granularity (levels 4-9)
+- 🎯 **Multi-Dimensional Unified Indexing** — Composite index keys combining time, space, and attributes (vector, scalar, category)
+- 🧊 **Dual Data Model Support** — Seamlessly handle both scattered points and volumetric voxel data with configurable spatial granularity 
 - ⚡ **Multiple Query Strategies** — 
   - **Incremental Filtering**: Layered index intersection (SimId → Space → Time)
   - **Unified Indexing**: Single composite index scan for optimal performance
   - **Attribute-specific indexes**: Velocity (Vx/Vy/Vz), Temperature, and Category-based queries
-- 🚀 **Flexible Execution Engines** — Single-threaded, multi-threaded parallel, and Apache Spark distributed execution (local/YARN)
-- 🔧 **Advanced Features** — Bloom filter support for performance optimization, configurable no-data values, header preservation
+- 🚀 **Flexible Execution Engines** — Single-threaded, multi-threaded parallel, and Apache Spark distributed execution
 - 📊 **Scalable Storage** — Apache HBase backend with optimized row key design for efficient range scans
 - 🗂️ **Data Export** — Support for CSV and raw format export with model extraction capabilities
 
@@ -43,8 +41,7 @@ The system supports multiple query paradigms including **incremental filtering**
 | **Build Tool** | Apache Maven 3.6+ |
 | **Big Data Storage** | Apache HBase 2.0+ |
 | **Distributed Computing** | Apache Spark 3.0+ (Local / YARN) |
-| **Spatial Indexing** | Z3D Encoding, Hilbert Curve, Time Bucketing |
-| **Data Formats** | CSV, Parquet (via Spark) |
+| **Data Formats** | CSV |
 | **Cluster Coordination** | Apache ZooKeeper |
 
 ---
@@ -74,7 +71,7 @@ export ZK="node001:2181,node002:2181,node003:2181"
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/unified-spatial-index.git
+git clone https://github.com/Geo3D-AI-CSU/unified-spatial-index.git
 cd unified-spatial-index
 ```
 
@@ -84,20 +81,13 @@ cd unified-spatial-index
 mvn clean package -DskipTests
 ```
 
-3. **Make scripts executable** (if using provided shell scripts)
-
-```bash
-chmod +x /test/sensor-spatial-index/upload_points.sh
-chmod +x /test/sensor-spatial-index/upload_voxels.sh
-```
-
 ---
 
 ## 💻 Usage
 
 ### 📁 Data Initialization
 
-#### Initialize Volume (Voxel) Tables
+#### Initialize Voxel Tables
 
 ```bash
 spark-submit \
@@ -163,23 +153,6 @@ spark-submit \
   --dataset geosim_voxel_001 \
   --unified-level 8 \
   --indexes unified \
-  --build-bloom
-```
-
-#### Alternative: Volume Voxel Ingest with Bloom Filter
-
-```bash
-spark-submit \
-  --class ingest.VolumeVoxelIngestJob \
-  --master local[4] \
-  --driver-memory 8g \
-  "$JAR" \
-  file:///test/sensor-spatial-index/data/geological_data_1.csv \
-  "$ZK" \
-  1000 \
-  --dataset 025 \
-  --indexes unified \
-  --unified-level 4 \
   --build-bloom
 ```
 
@@ -321,44 +294,6 @@ spark-submit \
 
 ---
 
-### 📤 Data Export
-
-#### Export Model Data
-
-```bash
-spark-submit \
-  --class Main \
-  --master local[4] \
-  --driver-memory 4g \
-  "$JAR" \
-  export-model \
-  "$ZK" \
-  MODEL_001 \
-  "2025-01-08T10:00:00Z" \
-  csv \
-  /test/sensor-spatial-index/result \
-  --dataset 020
-```
-
-#### Export Subcube Data
-
-```bash
-spark-submit \
-  --class Main \
-  --master local[4] \
-  --driver-memory 4g \
-  "$JAR" \
-  export-model \
-  "$ZK" \
-  subcube_0000_7fa86f77 \
-  "2025-11-05T17:00:53Z" \
-  csv \
-  /test/sensor-spatial-index/result \
-  --dataset 020
-```
-
----
-
 ### 🗑️ Dataset Management
 
 #### Drop Dataset (with force flag)
@@ -381,9 +316,9 @@ spark-submit \
 
 ```
 src/main/scala/
-├── index/          # Index key encoders (Z3D, UnifiedIndexKey, TimeBucket, Hilbert)
-├── ingest/         # Data ingestion jobs (Point, Voxel, Volume)
-├── model/          # Data models (SensorRecord, VolumeBrickResult, GeoSimPointLine, GeoSimVoxelLine)
+├── index/          # Index key encoders (Z3D, UnifiedIndexKey, TimeBucket)
+├── ingest/         # Data ingestion jobs (Point, Voxel,)
+├── model/          # Data models ( VolumeBrickResult, GeoSimPointLine, GeoSimVoxelLine)
 ├── query/          # Query implementations
 │   ├── *UnifiedQuery.scala          # Unified index queries
 │   ├── *IncrementalFilterQuery.scala # Incremental filtering queries
@@ -407,9 +342,7 @@ src/main/scala/
 | `--mode` | Execution mode: `serial`, `parallel`, `spark` | `serial` |
 | `--engine` | Query engine: `incremental`, `unified` | `unified` |
 | `--indexes` | Index types to build | `unified` |
-| `--build-bloom` | Enable Bloom filter | false |
 | `--with-header` | Include header in output | true |
-| `--nodata` | No-data value for export | -9999 |
 
 ### Index Types
 
