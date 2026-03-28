@@ -5,7 +5,7 @@
 
 This project provides a unified indexing framework for 3D  simulation data. It supports both scattered point data and volumetric (voxel) data, enabling efficient queries across spatial, temporal, and attribute dimensions.
 
-The system integrates multiple indexing strategies into a single queryable structure and supports sub-second retrieval from large-scale datasets stored in Apache HBase.
+The system integrates multiple indexing strategies into a unified queryable structure, enabling efficient, low-latency data access with reduced storage overhead on large-scale datasets stored in Apache HBase.
 
 ## Features
 
@@ -222,17 +222,17 @@ spark-submit \
 
 ```text
 src/main/scala/
-├── index/
-├── ingest/
-├── model/
-├── query/
-│   ├── *UnifiedQuery.scala
-│   ├── *IncrementalFilterQuery.scala
-│   └── VolumeQuery.scala
-├── spark/
-├── storage/
-├── util/
-└── Main.scala
+├── index/          # Index key encoders (Z3D, UnifiedIndexKey, TimeBucket)
+├── ingest/         # Data ingestion jobs (Point, Voxel,)
+├── model/          # Data models (  GeoSimPointLine, GeoSimVoxelLine)
+├── query/          # Query implementations
+│   ├── *UnifiedQuery.scala          # Unified index queries
+│   ├── *IncrementalFilterQuery.scala # Incremental filtering queries
+│   └── VolumeQuery.scala             # Volume-specific queries
+├── spark/          # Spark distributed query implementations
+├── storage/        # HBase table management and writers
+├── util/           # Utility classes (PorosityPayloadCodec, etc.)
+└── Main.scala      # Main entry point with CLI commands
 ```
 
 ## Configuration Options
