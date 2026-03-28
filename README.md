@@ -12,9 +12,7 @@
 
 ## 📖 Description
 
-This project implements a comprehensive indexing solution for geospatial simulation data, supporting both **scattered point clouds** (e.g., geothermal monitoring points) and **voxel-based volumetric data** (e.g., geological models). It provides unified indexing strategies that combine temporal, spatial, and attribute dimensions into a single queryable structure, enabling sub-second retrieval from massive datasets stored in Apache HBase.
-
-The system supports multiple query paradigms including **incremental filtering**, **unified composite indexing**, and **distributed Spark-based execution**—making it suitable for both real-time analytics and large-scale batch processing scenarios in geological, meteorological, and environmental monitoring applications.
+This project implements a comprehensive indexing solution for geospatial simulation data, supporting both **scattered point ** and **voxel data** . It provides unified indexing strategies that combine temporal, spatial, and attribute dimensions into a single queryable structure, enabling sub-second retrieval from massive datasets stored in Apache HBase.
 
 
 ---
