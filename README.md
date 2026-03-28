@@ -1,9 +1,9 @@
-# Unified Spatio-Temporal-Attribute Indexing System for 3D Geospatial Data
+# Unified Spatio-Temporal-Attribute Indexing System for Geothermal Numerical Simulation Data
 
 
 ## Description
 
-This project provides a unified indexing framework for 3D geospatial simulation data. It supports both scattered point data and volumetric (voxel) data, enabling efficient queries across spatial, temporal, and attribute dimensions.
+This project provides a unified indexing framework for 3D  simulation data. It supports both scattered point data and volumetric (voxel) data, enabling efficient queries across spatial, temporal, and attribute dimensions.
 
 The system integrates multiple indexing strategies into a single queryable structure and supports sub-second retrieval from large-scale datasets stored in Apache HBase.
 
