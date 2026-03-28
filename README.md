@@ -276,9 +276,4 @@ Spark configuration example:
 --executor-memory 4g \
 --driver-memory 2g
 ```
-
-
-MIT License
-
-```
 ```
