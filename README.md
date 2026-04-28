@@ -1,4 +1,4 @@
-# Unified Spatio-Temporal-Attribute Indexing System for Geothermal Numerical Simulation Data
+# STA-Indexing: Unified Spatio-Temporal-Attribute Indexing System for Geothermal Numerical Simulation Data
 
 
 ## Description
