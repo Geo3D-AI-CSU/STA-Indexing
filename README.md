@@ -138,8 +138,8 @@ Query scattered points (serial):
 ```bash
 spark-submit \
   --class Main \
-  --master local[2] \
-  --driver-memory 4g \
+  --master local[4] \
+  --driver-memory 8g \
   "$JAR" \
   sim-point \
   "$ZK" \
@@ -186,8 +186,8 @@ Query voxel data:
 ```bash
 spark-submit \
   --class Main \
-  --master local[2] \
-  --driver-memory 4g \
+  --master local[4] \
+  --driver-memory 8g \
   "$JAR" \
   volume \
   "$ZK" \
@@ -210,7 +210,7 @@ spark-submit \
 spark-submit \
   --class Main \
   --master local[4] \
-  --driver-memory 4g \
+  --driver-memory 8g \
   "$JAR" \
   drop-dataset \
   "$ZK" \
@@ -274,5 +274,5 @@ Spark configuration example:
 --num-executors 3 \
 --executor-cores 4 \
 --executor-memory 4g \
---driver-memory 2g
+--driver-memory 8g
 ```
